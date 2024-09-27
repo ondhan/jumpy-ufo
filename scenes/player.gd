@@ -1,8 +1,8 @@
 extends CharacterBody2D
 
 
-const SPEED = 300.0
-const JUMP_VELOCITY = -400.0
+const SPEED = 300.0 # left/right movement speed
+const JUMP_VELOCITY = -400.0 # jump strength
 
 
 func _physics_process(delta: float) -> void:
@@ -26,5 +26,4 @@ func _physics_process(delta: float) -> void:
 
 
 func _on_obstacle_body_entered(body: Node2D) -> void:
-	self.hide()
-	pass # Replace with function body.
+	get_parent().game_over()
