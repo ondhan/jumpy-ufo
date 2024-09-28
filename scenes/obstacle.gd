@@ -1,14 +1,16 @@
-extends Area2D
+extends CharacterBody2D
 
 
-var speed = 5.0
+var SPEED = 300.0
 
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
+func _physics_process(delta: float) -> void:
+
+	velocity.x = -SPEED
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	self.position.x -= speed  # move to the left
+	move_and_slide()
+
+# despawns instance once it reaches a certain coordinates
+	if position.x < -100:
+		queue_free()

@@ -6,8 +6,9 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pla3q"]
 size = Vector2(47, 394)
 
-[node name="Obstacle" type="Area2D"]
+[node name="Obstacle" type="CharacterBody2D" groups=["obstacles"]]
 position = Vector2(1228, 449)
+motion_mode = 1
 script = ExtResource("1_vl3we")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

@@ -7,8 +7,7 @@ const JUMP_VELOCITY = -400.0 # jump strength
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
-	if not is_on_floor():
-		velocity += get_gravity() * delta
+	velocity += get_gravity() * delta
 
 	# Handle jump.
 	if Input.is_action_just_pressed("jump"):
@@ -23,7 +22,5 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 	
-
-
-func _on_obstacle_body_entered(body: Node2D) -> void:
-	get_parent().game_over()
+	if get_slide_collision_count() != 0:
+		get_parent().game_over()
