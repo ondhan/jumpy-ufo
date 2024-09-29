@@ -1,12 +1,21 @@
-[gd_scene load_steps=11 format=3 uid="uid://x4ip0xt6qscf"]
+[gd_scene load_steps=16 format=3 uid="uid://x4ip0xt6qscf"]
 
 [ext_resource type="Texture2D" uid="uid://d1wrtq4vghkb2" path="res://assets/ufo_1.png" id="1_2kkxl"]
 [ext_resource type="Script" path="res://scenes/player.gd" id="1_hbu61"]
 [ext_resource type="Script" path="res://scenes/game_scene.gd" id="1_y0vno"]
 [ext_resource type="Texture2D" uid="uid://ccdfmeu5mq2t0" path="res://assets/ufo_2.png" id="2_2faqt"]
 [ext_resource type="Texture2D" uid="uid://h5oqpensyqxf" path="res://assets/ufo_3.png" id="3_r3l25"]
+[ext_resource type="Script" path="res://scenes/pause_screen.gd" id="8_nyy7h"]
 [ext_resource type="Script" path="res://scenes/start_screen.gd" id="8_tjycs"]
 [ext_resource type="Script" path="res://scenes/game_over_screen.gd" id="9_mclkx"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ddtkj"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_pivpq"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_d2x2n"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_dq88t"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ra4hj"]
 animations = [{
@@ -35,18 +44,43 @@ radius = 17.0
 [node name="GameScene" type="Node2D"]
 script = ExtResource("1_y0vno")
 
-[node name="SpawnManager" type="Node" parent="."]
-
-[node name="Obstacle1Timer" type="Timer" parent="SpawnManager"]
-autostart = true
-
 [node name="ColorRect" type="ColorRect" parent="."]
 offset_right = 1175.0
 offset_bottom = 650.0
 color = Color(0, 0, 0, 1)
 
+[node name="SpawnManager" type="Node" parent="."]
+
+[node name="Obstacle1Timer" type="Timer" parent="SpawnManager"]
+autostart = true
+
+[node name="WorldBoundaries" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WorldBoundaries"]
+position = Vector2(-4, -4)
+rotation = 1.5708
+shape = SubResource("WorldBoundaryShape2D_ddtkj")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="WorldBoundaries"]
+position = Vector2(-4, -4)
+rotation = 3.14159
+shape = SubResource("WorldBoundaryShape2D_pivpq")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="WorldBoundaries"]
+position = Vector2(1157, 652)
+rotation = 4.71239
+shape = SubResource("WorldBoundaryShape2D_d2x2n")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="WorldBoundaries"]
+position = Vector2(1157, 653)
+shape = SubResource("WorldBoundaryShape2D_dq88t")
+
 [node name="Player" type="CharacterBody2D" parent="."]
 position = Vector2(200, 300)
+collision_layer = 3
+collision_mask = 3
 floor_block_on_wall = false
 script = ExtResource("1_hbu61")
 
@@ -65,8 +99,9 @@ position = Vector2(0, -5)
 shape = SubResource("CircleShape2D_ha75j")
 
 [node name="StartScreen" type="Node2D" parent="."]
-visible = false
+process_mode = 2
 top_level = true
+z_index = 1
 script = ExtResource("8_tjycs")
 
 [node name="ColorRect" type="ColorRect" parent="StartScreen"]
@@ -75,16 +110,24 @@ offset_bottom = 650.0
 color = Color(0, 0, 0, 1)
 
 [node name="Label" type="Label" parent="StartScreen"]
-offset_left = 565.0
-offset_top = 93.0
-offset_right = 605.0
-offset_bottom = 116.0
-text = "Start"
+offset_left = 555.0
+offset_top = 118.0
+offset_right = 641.0
+offset_bottom = 141.0
+text = "Jumpy UFO"
+
+[node name="Label2" type="Label" parent="StartScreen"]
+offset_left = 520.0
+offset_top = 290.0
+offset_right = 684.0
+offset_bottom = 313.0
+text = "Press \"Space: to start"
 
 [node name="GameOverScreen" type="Node2D" parent="."]
 process_mode = 2
 visible = false
 top_level = true
+z_index = 1
 script = ExtResource("9_mclkx")
 
 [node name="ColorRect" type="ColorRect" parent="GameOverScreen"]
@@ -93,10 +136,10 @@ offset_bottom = 650.0
 color = Color(0, 0, 0, 1)
 
 [node name="Label" type="Label" parent="GameOverScreen"]
-offset_left = 536.0
-offset_top = 148.0
-offset_right = 623.0
-offset_bottom = 171.0
+offset_left = 485.0
+offset_top = 173.0
+offset_right = 572.0
+offset_bottom = 196.0
 text = "Game Over"
 
 [node name="RetryButton" type="Button" parent="GameOverScreen"]
@@ -113,6 +156,42 @@ offset_right = 691.0
 offset_bottom = 442.0
 text = "Exit"
 
+[node name="PauseScreen" type="Node2D" parent="."]
+process_mode = 2
+visible = false
+top_level = true
+z_index = 1
+script = ExtResource("8_nyy7h")
+
+[node name="ColorRect" type="ColorRect" parent="PauseScreen"]
+offset_right = 1175.0
+offset_bottom = 650.0
+color = Color(0, 0, 0, 1)
+
+[node name="Label" type="Label" parent="PauseScreen"]
+offset_left = 536.0
+offset_top = 148.0
+offset_right = 623.0
+offset_bottom = 171.0
+text = "Paused"
+
+[node name="ResumeButton" type="Button" parent="PauseScreen"]
+offset_left = 397.0
+offset_top = 418.0
+offset_right = 447.0
+offset_bottom = 449.0
+text = "Resume"
+
+[node name="ExitButton" type="Button" parent="PauseScreen"]
+offset_left = 654.0
+offset_top = 411.0
+offset_right = 691.0
+offset_bottom = 442.0
+text = "Exit"
+
 [connection signal="timeout" from="SpawnManager/Obstacle1Timer" to="." method="_on_obstacle_1_timer_timeout"]
+[connection signal="body_entered" from="WorldBoundaries" to="." method="_on_world_boundaries_body_entered"]
 [connection signal="pressed" from="GameOverScreen/RetryButton" to="GameOverScreen" method="_on_retry_button_pressed"]
 [connection signal="pressed" from="GameOverScreen/ExitButton" to="GameOverScreen" method="_on_exit_button_pressed"]
+[connection signal="pressed" from="PauseScreen/ResumeButton" to="PauseScreen" method="_on_resume_button_pressed"]
+[connection signal="pressed" from="PauseScreen/ExitButton" to="PauseScreen" method="_on_exit_button_pressed"]
