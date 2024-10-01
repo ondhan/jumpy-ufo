@@ -23,6 +23,7 @@ func _process(delta: float) -> void:
 	pass
 
 
+# resumes game upon pressing a button
 func _on_resume_button_pressed() -> void:
 	print("resuming on pause menu through button")
 	hide()
@@ -30,6 +31,7 @@ func _on_resume_button_pressed() -> void:
 	is_paused = false
 	
 
+# exits game upon pressing a button
 func _on_exit_button_pressed() -> void:
 	print("quitting on pause menu through button")
 	get_tree().quit()

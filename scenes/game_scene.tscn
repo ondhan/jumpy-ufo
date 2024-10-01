@@ -49,6 +49,21 @@ offset_right = 1175.0
 offset_bottom = 650.0
 color = Color(0, 0, 0, 1)
 
+[node name="ScoreLabel" type="Label" parent="."]
+offset_left = 49.0
+offset_top = 26.0
+offset_right = 89.0
+offset_bottom = 49.0
+
+[node name="ScoreTimer" type="Timer" parent="ScoreLabel"]
+autostart = true
+
+[node name="HighScoreLabel" type="Label" parent="."]
+offset_left = 135.0
+offset_top = 33.0
+offset_right = 175.0
+offset_bottom = 56.0
+
 [node name="SpawnManager" type="Node" parent="."]
 
 [node name="Obstacle1Timer" type="Timer" parent="SpawnManager"]
@@ -189,6 +204,7 @@ offset_right = 691.0
 offset_bottom = 442.0
 text = "Exit"
 
+[connection signal="timeout" from="ScoreLabel/ScoreTimer" to="." method="_on_score_timer_timeout"]
 [connection signal="timeout" from="SpawnManager/Obstacle1Timer" to="." method="_on_obstacle_1_timer_timeout"]
 [connection signal="body_entered" from="WorldBoundaries" to="." method="_on_world_boundaries_body_entered"]
 [connection signal="pressed" from="GameOverScreen/RetryButton" to="GameOverScreen" method="_on_retry_button_pressed"]
