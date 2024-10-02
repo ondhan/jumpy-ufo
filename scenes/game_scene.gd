@@ -13,7 +13,6 @@ const FILE_NAME = "user://game-data.json"
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	#timer_1.wait_time = 3.0 # obstacle 1 timing
 	load_game()
 	$ScoreLabel.text = str("Score: ", score)
 	$HighScoreLabel.text = str("Highscore: ", highscore)
@@ -41,6 +40,40 @@ func spawn_obstacle_1():
 	add_child(obstacle)
 
 
+func spawn_obstacle_2():
+	var rand = RandomNumberGenerator.new()
+	var obstacle_scene = load("res://scenes/obstacle.tscn")
+	var obstacle = obstacle_scene.instantiate()
+	obstacle.rotate(deg_to_rad(180))
+	var x = 1250 # x coordinate is set outside of the screen
+	rand.randomize()
+	var y = rand.randf_range(200, -150) # y coordinate is randomized 
+	obstacle.position.x = x
+	obstacle.position.y = y
+	add_child(obstacle)
+
+
+func spawn_obstacle_3():
+	var rand = RandomNumberGenerator.new()
+	var obstacle_scene = load("res://scenes/obstacle.tscn")
+	var obstacle1 = obstacle_scene.instantiate()
+	var obstacle2 = obstacle_scene.instantiate()
+	obstacle2.rotate(deg_to_rad(180))
+	var x = 1250 # x coordinate is set outside of the screen
+	
+	rand.randomize()
+	var y = rand.randf_range(800, 450) # y coordinate is randomized 
+	obstacle1.position.x = x
+	obstacle1.position.y = y
+	add_child(obstacle1)
+
+	rand.randomize()
+	var y2 = rand.randf_range(y-500, -150) # y coordinate is randomized 
+	obstacle2.position.x = x
+	obstacle2.position.y = y2
+	add_child(obstacle2)
+	
+
 # pauses the game
 func pause_game():
 	get_tree().paused = true
@@ -52,6 +85,7 @@ func game_over():
 	if score > highscore:
 		highscore = score
 		$HighScoreLabel.text = str("High score: ", highscore)
+		$GameOverScreen/HighscoreLabel.show()
 		save_game(highscore)
 	get_tree().paused = true
 	get_node("GameOverScreen").show()
@@ -60,6 +94,7 @@ func game_over():
 # resets the game to the initial state
 func reset_game():
 	score = 0
+	$GameOverScreen/HighscoreLabel.hide()
 	get_node("Player").position = Vector2(200, 300) # resets player position
 	for obstacle in get_tree().get_nodes_in_group("obstacles"): # deletes all summoned obstacles
 		obstacle.remove_from_group("obstacles")
@@ -68,7 +103,19 @@ func reset_game():
 
 # timer spawning obstacle 1
 func _on_obstacle_1_timer_timeout() -> void:
-	spawn_obstacle_1()
+	var rand = RandomNumberGenerator.new()
+	rand.randomize()
+	var obstacle_num = rand.randi_range(1, 3)
+	if obstacle_num == 1:
+		spawn_obstacle_1()
+	elif obstacle_num == 2:
+		spawn_obstacle_2()
+	elif obstacle_num == 3:
+		spawn_obstacle_3()
+	
+	rand.randomize()
+	var new_timer = rand.randf_range(0.5, 1.5)
+	timer_1.wait_time = new_timer # obstacle 1 timing
 
 
 # calls game over when player leaves the screen

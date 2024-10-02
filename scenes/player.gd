@@ -19,9 +19,15 @@ func _physics_process(delta: float) -> void:
 		velocity.x = direction * SPEED
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
+	
+	rotate_character(self, direction)
 
 	move_and_slide()
 	
 	if get_slide_collision_count() != 0:
 		print("collision")
 		get_parent().game_over()
+
+
+func rotate_character(character, direction):
+	character.set_rotation(direction * 7)

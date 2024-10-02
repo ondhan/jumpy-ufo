@@ -125,10 +125,11 @@ offset_bottom = 650.0
 color = Color(0, 0, 0, 1)
 
 [node name="Label" type="Label" parent="StartScreen"]
-offset_left = 555.0
-offset_top = 118.0
-offset_right = 641.0
-offset_bottom = 141.0
+offset_left = 520.0
+offset_top = 177.0
+offset_right = 685.0
+offset_bottom = 227.0
+theme_override_font_sizes/font_size = 30
 text = "Jumpy UFO"
 
 [node name="Label2" type="Label" parent="StartScreen"]
@@ -150,12 +151,20 @@ offset_right = 1175.0
 offset_bottom = 650.0
 color = Color(0, 0, 0, 1)
 
-[node name="Label" type="Label" parent="GameOverScreen"]
+[node name="GameOverLabel" type="Label" parent="GameOverScreen"]
 offset_left = 485.0
 offset_top = 173.0
 offset_right = 572.0
 offset_bottom = 196.0
 text = "Game Over"
+
+[node name="HighscoreLabel" type="Label" parent="GameOverScreen"]
+visible = false
+offset_left = 475.0
+offset_top = 302.0
+offset_right = 594.0
+offset_bottom = 325.0
+text = "New highscore!"
 
 [node name="RetryButton" type="Button" parent="GameOverScreen"]
 offset_left = 397.0
